@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// personifyID, first name, last name,  pvc email, phone number, date started, volunteer type, last COI, date of last background check, last mission conversation, staff partner
+// personifyID, first name, last name,  preferred name, email, phone number, date started, volunteer type, last COI, date of last background check, last mission conversation, staff partner, tech needed
 
 const VolunteerSchema = mongoose.Schema(
     {
@@ -31,7 +31,13 @@ const VolunteerSchema = mongoose.Schema(
             unique: false,
             default: "",
         },
-        pvcEmail: {
+        preferredName: {
+            type: String,
+            minlength: 1,
+            maxlength: 50,
+            trim: true,
+        },
+        email: {
             type: String,
             minlength: 1,
             maxlength: 50,
@@ -77,6 +83,10 @@ const VolunteerSchema = mongoose.Schema(
             trim: true,
             unique: false,
             default: "",
+        },
+        techNeeded: {
+            type: Boolean,
+            default: false,
         },
         createdAt: {
             type: Date,
