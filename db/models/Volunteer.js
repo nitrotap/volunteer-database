@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-// personifyID, first name, last name,  preferred name, email, phone number, date started, volunteer type, last COI, date of last background check, last mission conversation, staff partner, tech needed
+// CRM_ID, first name, last name,  preferred name, email, phone number, date started, volunteer type, last COI, date of last background check, last mission conversation, staff partner, tech needed
 
 const VolunteerSchema = mongoose.Schema(
     {
-        personifyId: {
+        CRM_ID: {
             type: String,
             required: true,
             minlength: 1,
