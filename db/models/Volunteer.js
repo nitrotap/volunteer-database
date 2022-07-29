@@ -4,15 +4,6 @@ import mongoose from "mongoose";
 
 const VolunteerSchema = mongoose.Schema(
     {
-        CRM_ID: {
-            type: String,
-            required: true,
-            minlength: 1,
-            maxlength: 50,
-            trim: true,
-            unique: true,
-            default: "",
-        },
         firstName: {
             type: String,
             required: true,
@@ -53,6 +44,14 @@ const VolunteerSchema = mongoose.Schema(
             unique: false,
             default: "",
         },
+        CRM_ID: {
+            type: String,
+            minlength: 1,
+            maxlength: 50,
+            trim: true,
+            unique: true,
+            default: "",
+        },
         dateStarted: {
             type: Date,
             trim: true,
@@ -87,6 +86,14 @@ const VolunteerSchema = mongoose.Schema(
         techNeeded: {
             type: Boolean,
             default: false,
+        },
+        notes: {
+            type: String,
+            minlength: 1,
+            maxlength: 500,
+            trim: true,
+            unique: false,
+            default: "",
         },
         createdAt: {
             type: Date,
