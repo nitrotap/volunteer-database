@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 // import Auth from '../utils/auth';
 // import { ADD_USER } from '../utils/mutations';
+import { useSession, signIn, signOut } from "next-auth/react"
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
