@@ -25,20 +25,6 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-// set up pre-findOneAndUpdate middleware to update password
-// userSchema.pre('findOneAndUpdate', async function (next) {
-//     const userUpdate = await this.model.findOne(this.getQuery());
-//     // console.log(userUpdate);
-
-//     if (update.password) {
-//         const saltRounds = 12;
-//         update.password = await hash(this.getUpdate().password, saltRounds);
-//         this.setUpdate(update);
-//     }
-
-//     next();
-// });
-
 // compare the incoming password with the hashed password
 userSchema.methods.isCorrectPassword = async function (password) {
     return await compare(password, this.password);
