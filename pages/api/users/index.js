@@ -1,6 +1,8 @@
 import connection from '../../../db/connection';
 import { User } from '../../../db/models';
 
+// ../api/users routes here
+
 export default async function handler(req, res) {
   const { method } = req;
 

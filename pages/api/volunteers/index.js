@@ -1,6 +1,8 @@
 import connection from '../../../db/connection';
 import { Volunteer } from '../../../db/models';
 
+// ../api/volunteers routes here
+
 export default async function handler(req, res) {
   const { method } = req;
 

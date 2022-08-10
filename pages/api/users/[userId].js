@@ -1,6 +1,8 @@
 import connection from '../../../db/connection';
 import { User } from '../../../db/models';
 
+// .../api/users/[userId] routes here
+
 export default async function handler(req, res) {
   const { method } = req;
   const userId = req.query.userId;
@@ -35,7 +37,7 @@ export default async function handler(req, res) {
           res.status(404).end(`No User Found With This Id`);
           break;
         };
-        // only modify record if it's in the req.body
+        // only modify record portion if it's in the req.body
         if (req.body.email) {
         user.email = req.body.email;
         };
