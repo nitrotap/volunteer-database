@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       break
     case 'POST':
       try {
-        // create user and return message, only easy way I found to ommit password on return
+        // create user and return message, only easy way I found to omit password on return
         const user = await User.create(req.body);
         res.status(201).json({ success: true, message: `${user.email} has been created.` });
       } catch (err) {

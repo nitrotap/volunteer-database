@@ -24,13 +24,11 @@ const VolunteerSchema = new Schema(
         },
         preferredName: {
             type: String,
-            minlength: 1,
             maxlength: 50,
             trim: true,
         },
         email: {
             type: String,
-            minlength: 1,
             maxlength: 50,
             trim: true,
             unique: true,
@@ -38,7 +36,6 @@ const VolunteerSchema = new Schema(
         },
         phone: {
             type: String,
-            minlength: 1,
             maxlength: 15,
             trim: true,
             unique: false,
@@ -46,7 +43,6 @@ const VolunteerSchema = new Schema(
         },
         CRM_ID: {
             type: String,
-            minlength: 1,
             maxlength: 50,
             trim: true,
             unique: true,
@@ -77,7 +73,6 @@ const VolunteerSchema = new Schema(
         },
         staffPartner: {
             type: String,
-            minlength: 1,
             maxlength: 50,
             trim: true,
             unique: false,
@@ -89,7 +84,6 @@ const VolunteerSchema = new Schema(
         },
         notes: {
             type: String,
-            minlength: 1,
             maxlength: 500,
             trim: true,
             unique: false,
