@@ -2,7 +2,7 @@
 
 ## Description
 
-Website for volunteer tracking using Next.js, MUI, and npm.
+Website for volunteer tracking using Next.js, MUI, and npm.  
 ![badmath](https://img.shields.io/github/languages/top/nitrotap/volunteer-database)
 ![badmath](https://img.shields.io/github/languages/top/nitrotap/volunteer-database)  
 ![badmath](https://img.shields.io/github/issues/nitrotap/volunteer-database)
@@ -18,11 +18,15 @@ Website for volunteer tracking using Next.js, MUI, and npm.
 
 ## Installation
 
+```
 npm i
+```
 
 ## Usage
 
+```
 npm run dev
+```
 
 ## Questions
 
