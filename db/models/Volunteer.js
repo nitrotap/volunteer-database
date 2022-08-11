@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import { Schema, model, mongoose } from "mongoose";
 
 // CRM_ID, first name, last name,  preferred name, email, phone number, date started, volunteer type, last COI, date of last background check, last mission conversation, staff partner, tech needed
 
-const VolunteerSchema = mongoose.Schema(
+const VolunteerSchema = new Schema(
     {
         firstName: {
             type: String,
@@ -109,6 +109,6 @@ const VolunteerSchema = mongoose.Schema(
 );
 
 
-const Volunteer = mongoose.model("Volunteer", VolunteerSchema);
+const Volunteer = mongoose.models.Volunteer || model("Volunteer", VolunteerSchema);
 
 export default Volunteer;
