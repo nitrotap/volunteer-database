@@ -64,7 +64,9 @@ export default function NewVolunteer(props) {
             ...formState,
             [event.target.name]: event.target.value
         });
-        console.log(formState);
+        // console.log(formState);
+        postData(formState);
+        window.location.replace("/all");
     }
 
     function textForm(fieldText, fieldName, required) {
@@ -210,6 +212,28 @@ export default function NewVolunteer(props) {
 
             </Box >
         )
+    }
+
+    const postData = async (form) => {
+        try {
+            const res = await fetch('/api/volunteers', {
+                method: 'POST',
+                body: JSON.stringify(form),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            // Throw error with status code in case Fetch API req failed
+            if (!res.ok) {
+                throw new Error(res.status)
+            }
+
+            // Redirect to all page
+            // window.location.assign('/all');
+
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 

@@ -1,9 +1,33 @@
 import React from "react"
+import { useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
+import connection from '../db/connection'
+// import User from '../db/models/User';
+import Volunteer from "../db/models/Volunteer";
 
+function All(props) {
+    let volunteers = JSON.parse(props.result)
 
+    let rows = volunteers.map((volunteer) => {
+        return {
+            id: volunteer._id,
+            firstName: volunteer.firstName,
+            lastName: volunteer.lastName,
+            preferredName: volunteer.preferredName,
+            email: volunteer.email,
+            phoneNumber: volunteer.phoneNumber,
+            CRM_ID: volunteer.CRM_ID,
+            dateStarted: volunteer.dateStarted,
+            volunteerType: volunteer.volunteerType,
+            lastCOI: volunteer.lastCOI,
+            lastBackgroundCheck: volunteer.lastBackgroundCheck,
+            lastMissionConversation: volunteer.lastMissionConversation,
+            staffPartner: volunteer.staffPartner,
+            techNeeded: volunteer.techNeeded,
+            notes: volunteer.notes,
+        }
 
-export default function All(props) {
+    })
 
     const columns = [
         {
@@ -90,15 +114,12 @@ export default function All(props) {
             width: 500,
             editable: true
         },
-
-
-
-    ]
+    ];
 
     /* todo: add a button to add a new volunteer */
-    const rows = async function (props) {
-        await props.db.Volunteer.findAll()
-    }
+    // const rows = async function (props) {
+    //     await props.db.Volunteer.findAll();
+    // };
 
     const mockRows = [
         // add new volunteer here
@@ -137,20 +158,27 @@ export default function All(props) {
             techNeeded: 'techNeeded',
             notes: 'notes',
         },
-
-
-
-    ]
+    ];
 
     return (
         <div style={{ display: 'flex', height: '1000px' }}>
             <div style={{ flexGrow: 1 }}>
                 <DataGrid
                     experimentalFeatures={{ newEditingApi: true }}
-                    rows={mockRows}
+                    rows={rows}
                     columns={columns} />
             </div>
         </div>
 
-    )
+    );
 }
+
+export async function getServerSideProps() {
+    await connection();
+
+    const result = await Volunteer.find({})
+    console.log(result);
+    return { props: { result: JSON.stringify(result) } }
+}
+
+export default All;

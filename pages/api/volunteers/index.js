@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       };
       break;
     case 'POST':
-      try { 
+      try {
         // create volunteer and return json
         const volunteer = await Volunteer.create(req.body);
         res.status(201).json({ success: true, data: volunteer });

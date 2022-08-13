@@ -26,19 +26,16 @@ const VolunteerSchema = new Schema(
             type: String,
             trim: true,
             unique: true,
-            default: "",
         },
         phone: {
             type: String,
             trim: true,
             unique: false,
-            default: "",
         },
         CRM_ID: {
             type: String,
             trim: true,
             unique: true,
-            default: "",
         },
         dateStarted: {
             type: Date,
