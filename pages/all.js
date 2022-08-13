@@ -5,6 +5,16 @@ import connection from '../db/connection'
 // import User from '../db/models/User';
 import Volunteer from "../db/models/Volunteer";
 
+
+function volParser(volunteer) {
+    // console.log(volunteer.volunteerType[0])
+
+    // todo return badges for each volunteer type
+    return JSON.stringify(volunteer.volunteerType[0])
+
+}
+
+
 function All(props) {
     let volunteers = JSON.parse(props.result)
 
@@ -18,7 +28,7 @@ function All(props) {
             phoneNumber: volunteer.phoneNumber,
             CRM_ID: volunteer.CRM_ID,
             dateStarted: volunteer.dateStarted,
-            volunteerType: volunteer.volunteerType,
+            volunteerType: volParser(volunteer),
             lastCOI: volunteer.lastCOI,
             lastBackgroundCheck: volunteer.lastBackgroundCheck,
             lastMissionConversation: volunteer.lastMissionConversation,
@@ -177,7 +187,6 @@ export async function getServerSideProps() {
     await connection();
 
     const result = await Volunteer.find({})
-    console.log(result);
     return { props: { result: JSON.stringify(result) } }
 }
 
