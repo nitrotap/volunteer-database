@@ -44,6 +44,8 @@ export default function NewVolunteer(props) {
             ...formState,
             [event.target.name]: event.target.value
         });
+
+        console.log(event.target.name)
     }
 
     function handleStateChange(event) {
@@ -134,7 +136,6 @@ export default function NewVolunteer(props) {
                         </Grid>
                         <Grid item xs={8}>
                             <TextField
-                                required={required}
                                 id={fieldName}
                                 label={fieldText}
                                 name={fieldName}

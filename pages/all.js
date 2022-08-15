@@ -1,7 +1,7 @@
 import React from "react"
 import { useEffect } from 'react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { Card } from "@mui/material";
+import { Button } from "@mui/material";
 import connection from '../db/connection'
 // import User from '../db/models/User';
 import Volunteer from "../db/models/Volunteer";
@@ -12,7 +12,7 @@ function badgeRender(badge) {
     let site = `https://img.shields.io/badge/${badge.label}-${badge.text}-${badge.color}`
 
     return (
-        <div>
+        <div key={badge.label}>
             <img src={site} alt="badge" />
         </div>
     )
@@ -22,13 +22,8 @@ function badgeRender(badge) {
 function volParser(volunteer) {
     // needs to render all appropriate badges 
     if (volunteer.row.volunteerType[0]) {
-        // console.log(volunteer.row.volunteerType[0])
-        // console.log(Object.values(volunteer.row.volunteerType[0]))
         // determine which badges need to be displayed
         // render appropriate badges all together into single JSX element
-
-        // check for true values 
-
 
         let a = Object.entries(volunteer.row.volunteerType[0])
         let b = [];
@@ -37,24 +32,13 @@ function volParser(volunteer) {
             // console.log(value[1])
             if (value[1]) {
                 b.push(value[0])
-
-
             }
-
-
-
-
-
         })
-        console.log(b)
         // create an array of 'images'
         b.map((value, index) => {
-            // console.log(value)
-            console.log(value)
             const types = ['CE', 'SGF', 'MIM', 'TS', 'CR', 'DE', 'Social Media', 'ESSL', 'DRCOG', 'TRAIN', 'DEV']
 
             if (value === 'CE') {
-
                 b[index] = badgeRender({
                     label: 'CE',
                     text: 'Community Educator',
@@ -147,9 +131,7 @@ function volParser(volunteer) {
 
 
     } else {
-        return (
-            'Add a type'
-        )
+
     }
 
     // todo return badges for each volunteer type
@@ -158,8 +140,13 @@ function volParser(volunteer) {
 }
 
 
+function handleTypeChange(e) {
+    console.log(e.target.value)
+}
 function All(props) {
     let volunteers = JSON.parse(props.result)
+
+
 
     let rows = volunteers.map((volunteer) => {
         return {
@@ -186,13 +173,11 @@ function All(props) {
         {
             field: 'firstName',
             headerName: 'First Name',
-            width: 200,
             editable: true
         },
         {
             field: 'lastName',
             headerName: 'Last Name',
-            width: 200,
             editable: true
         },
         {
@@ -212,62 +197,58 @@ function All(props) {
         },
         {
             field: 'phoneNumber',
-            headerName: 'Phone Number',
-            width: 200,
+            headerName: 'Phone',
+
             editable: true
         },
         {
             field: 'CRM_ID',
             headerName: 'CRM ID',
-            width: 200,
+
             editable: true
         },
         {
             field: 'dateStarted',
             headerName: 'Date Started',
-            width: 200,
+            type: 'date',
             editable: true
         },
         {
             field: 'lastCOI',
             headerName: 'Last COI',
-            width: 200,
+            type: 'date',
             editable: true
         },
         {
             field: 'lastBackgroundCheck',
             headerName: 'Last Background Check',
-            width: 200,
+            type: 'date',
             editable: true
         },
         {
             field: 'lastMissionConversation',
             headerName: 'Last Mission Conversation',
-            width: 200,
+            type: 'date',
             editable: true
         },
         {
             field: 'staffPartner',
             headerName: 'Staff Partner',
-            width: 200,
             editable: true
         },
         {
             field: 'techNeeded',
             headerName: 'Tech Needed',
-            width: 200,
             editable: true
         },
         {
             field: 'preferredName',
             headerName: 'Preferred Name',
-            width: 200,
             editable: true
         },
         {
             field: 'notes',
             headerName: 'Additional Notes',
-            width: 500,
             editable: true
         },
     ];
@@ -277,17 +258,52 @@ function All(props) {
     //     await props.db.Volunteer.findAll();
     // };
 
+    const handleCellEditStop = async (params, event) => {
+        // event.defaultMuiPrevented = true;
+        // console.log(event)
+        // console.log(params)
+
+        // console.log(event.target)
+        // console.log(event.target.value)
+        // console.log(event.target.name)
+
+
+        try {
+            const res = await fetch(`/api/volunteers/${params.id}`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    [params.field]: event.target.value
+                }
+                ),
+                headers: { 'Content-Type': 'application/json' }
+            })
+
+            if (!res.ok) {
+                throw new Error('Something went wrong')
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+
+
+    };
+
     return (
-        <div style={{ display: 'flex', height: '1000px' }}>
-            <div style={{ flexGrow: 1 }}>
-                <DataGrid
-                    experimentalFeatures={{ newEditingApi: true }}
-                    checkboxSelection
-                    disableSelectionOnClick
-                    components={{ Toolbar: GridToolbar }}
-                    getRowHeight={() => 'auto'}
-                    rows={rows}
-                    columns={columns} />
+        <div style={{ height: '100vh', width: '100vw' }}>
+            <div style={{ display: 'flex', height: '100%' }}>
+                <div style={{ flexGrow: 1 }}>
+                    <DataGrid
+                        rows={rows}
+                        columns={columns}
+                        checkboxSelection
+                        disableSelectionOnClick
+                        components={{ Toolbar: GridToolbar }}
+                        getRowHeight={() => 'auto'}
+                        experimentalFeatures={{ newEditingApi: true }}
+                        onCellEditStop={handleCellEditStop}
+                    />
+                </div>
             </div>
         </div>
 

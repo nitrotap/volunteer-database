@@ -27,7 +27,7 @@ const VolunteerSchema = new Schema(
             trim: true,
             unique: true,
         },
-        phone: {
+        phoneNumber: {
             type: String,
             trim: true,
             unique: false,
