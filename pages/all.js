@@ -1,16 +1,159 @@
 import React from "react"
 import { useEffect } from 'react'
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { Card } from "@mui/material";
 import connection from '../db/connection'
 // import User from '../db/models/User';
 import Volunteer from "../db/models/Volunteer";
 
 
+function badgeRender(badge) {
+
+    let site = `https://img.shields.io/badge/${badge.label}-${badge.text}-${badge.color}`
+
+    return (
+        <div>
+            <img src={site} alt="badge" />
+        </div>
+    )
+
+}
+
 function volParser(volunteer) {
-    // console.log(volunteer.volunteerType[0])
+    // needs to render all appropriate badges 
+    if (volunteer.row.volunteerType[0]) {
+        // console.log(volunteer.row.volunteerType[0])
+        // console.log(Object.values(volunteer.row.volunteerType[0]))
+        // determine which badges need to be displayed
+        // render appropriate badges all together into single JSX element
+
+        // check for true values 
+
+
+        let a = Object.entries(volunteer.row.volunteerType[0])
+        let b = [];
+        // map through array  to find true
+        a.map((value, index) => {
+            // console.log(value[1])
+            if (value[1]) {
+                b.push(value[0])
+
+
+            }
+
+
+
+
+
+        })
+        console.log(b)
+        // create an array of 'images'
+        b.map((value, index) => {
+            // console.log(value)
+            console.log(value)
+            const types = ['CE', 'SGF', 'MIM', 'TS', 'CR', 'DE', 'Social Media', 'ESSL', 'DRCOG', 'TRAIN', 'DEV']
+
+            if (value === 'CE') {
+
+                b[index] = badgeRender({
+                    label: 'CE',
+                    text: 'Community Educator',
+                    color: 'blue'
+                })
+
+            }
+
+            if (value === 'SGF') {
+                b[index] = badgeRender({
+                    label: 'SGF',
+                    text: 'Support Group Facilitator',
+                    color: 'green'
+                })
+            }
+            if (value === 'MIM') {
+                b[index] = badgeRender({
+                    label: 'MIM',
+                    text: 'MIM',
+                    color: 'red'
+                })
+            }
+            if (value === 'TS') {
+                b[index] = badgeRender({
+                    label: 'TS',
+                    text: 'Technical Support',
+                    color: 'yellow'
+                })
+            }
+            if (value === 'CR') {
+                b[index] = badgeRender({
+                    label: 'CR',
+                    text: 'CR',
+                    color: 'orange'
+                })
+            }
+            if (value === 'DE') {
+                b[index] = badgeRender({
+                    label: 'DE',
+                    text: 'Developer',
+                    color: 'purple'
+                })
+            }
+            if (value === 'Social Media') {
+                b[index] = badgeRender({
+                    label: 'Social Media',
+                    text: 'Social Media',
+                    color: 'blue'
+                })
+            }
+            if (value === 'ESSL') {
+                b[index] = badgeRender({
+                    label: 'ESSL',
+                    text: 'ESSL',
+                    color: 'green'
+                })
+            }
+            if (value === 'DRCOG') {
+                b[index] = badgeRender({
+                    label: 'DRCOG',
+                    text: 'DRCOG',
+                    color: 'red'
+                })
+            }
+            if (value === 'TRAIN') {
+                b[index] = badgeRender({
+                    label: 'TRAIN',
+                    text: 'TRAIN',
+                    color: 'yellow'
+                })
+            }
+            if (value === 'DEV') {
+                b[index] = badgeRender({
+                    label: 'DEV',
+                    text: 'DEV',
+                    color: 'orange'
+                })
+            }
+
+        })
+
+
+        return (
+            <div>
+                {b}
+            </div>
+        )
+
+
+
+
+    } else {
+        return (
+            'Add a type'
+        )
+    }
 
     // todo return badges for each volunteer type
-    return JSON.stringify(volunteer.volunteerType[0])
+
 
 }
 
@@ -28,7 +171,7 @@ function All(props) {
             phoneNumber: volunteer.phoneNumber,
             CRM_ID: volunteer.CRM_ID,
             dateStarted: volunteer.dateStarted,
-            volunteerType: volParser(volunteer),
+            volunteerType: volunteer.volunteerType,
             lastCOI: volunteer.lastCOI,
             lastBackgroundCheck: volunteer.lastBackgroundCheck,
             lastMissionConversation: volunteer.lastMissionConversation,
@@ -53,10 +196,13 @@ function All(props) {
             editable: true
         },
         {
-            field: 'preferredName',
-            headerName: 'Preferred Name',
+            field: 'volunteerType',
+            headerName: 'Volunteer Type',
             width: 200,
-            editable: true
+            editable: true,
+            renderCell: (params) => {
+                return volParser(params)
+            },
         },
         {
             field: 'email',
@@ -79,12 +225,6 @@ function All(props) {
         {
             field: 'dateStarted',
             headerName: 'Date Started',
-            width: 200,
-            editable: true
-        },
-        {
-            field: 'volunteerType',
-            headerName: 'Volunteer Type',
             width: 200,
             editable: true
         },
@@ -119,6 +259,12 @@ function All(props) {
             editable: true
         },
         {
+            field: 'preferredName',
+            headerName: 'Preferred Name',
+            width: 200,
+            editable: true
+        },
+        {
             field: 'notes',
             headerName: 'Additional Notes',
             width: 500,
@@ -131,50 +277,15 @@ function All(props) {
     //     await props.db.Volunteer.findAll();
     // };
 
-    const mockRows = [
-        // add new volunteer here
-        {
-            id: 0,
-            firstName: '',
-            lastName: '',
-            preferredName: '',
-            email: '',
-            phoneNumber: '',
-            CRM_ID: '',
-            dateStarted: '',
-            volunteerType: '',
-            lastCOI: '',
-            lastBackgroundCheck: '',
-            lastMissionConversation: '',
-            staffPartner: '',
-            techNeeded: '',
-            notes: '',
-        },
-        {
-            // todo map this to the database
-            id: 1,
-            firstName: 'John',
-            lastName: 'Doe',
-            preferredName: 'John Doe',
-            email: 'email@email.com',
-            phoneNumber: '123-456-7890',
-            CRM_ID: '0123456',
-            dateStarted: 'dateStarted',
-            volunteerType: 'volunteerType',
-            lastCOI: 'lastCOI',
-            lastBackgroundCheck: 'lastBackgroundCheck',
-            lastMissionConversation: 'lastMissionConversation',
-            staffPartner: 'staffPartner',
-            techNeeded: 'techNeeded',
-            notes: 'notes',
-        },
-    ];
-
     return (
         <div style={{ display: 'flex', height: '1000px' }}>
             <div style={{ flexGrow: 1 }}>
                 <DataGrid
                     experimentalFeatures={{ newEditingApi: true }}
+                    checkboxSelection
+                    disableSelectionOnClick
+                    components={{ Toolbar: GridToolbar }}
+                    getRowHeight={() => 'auto'}
                     rows={rows}
                     columns={columns} />
             </div>
