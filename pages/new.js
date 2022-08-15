@@ -44,8 +44,6 @@ export default function NewVolunteer(props) {
             ...formState,
             [event.target.name]: event.target.value
         });
-
-        console.log(event.target.name)
     }
 
     function handleStateChange(event) {
@@ -54,9 +52,16 @@ export default function NewVolunteer(props) {
             [event.target.name]: event.target.checked
         });
 
+        let volType = []
+        for (let key in state) {
+            if (state[key]) {
+                volType.push(key)
+            }
+        }
+
         setFormState({
             ...formState,
-            volunteerType: state
+            volunteerType: volType
         });
     }
 

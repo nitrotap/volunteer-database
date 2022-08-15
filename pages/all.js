@@ -1,7 +1,7 @@
 import React from "react"
 import { useEffect } from 'react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { Button } from "@mui/material";
+import { Button, Container, Box } from "@mui/material";
 import connection from '../db/connection'
 // import User from '../db/models/User';
 import Volunteer from "../db/models/Volunteer";
@@ -19,130 +19,104 @@ function badgeRender(badge) {
 
 }
 
-function volParser(volunteer) {
-    // needs to render all appropriate badges 
-    if (volunteer.row.volunteerType[0]) {
-        // determine which badges need to be displayed
-        // render appropriate badges all together into single JSX element
+function typeParser(volunteer) {
+    // console.log(volunteer.row.volunteerType + volunteer.id)
 
-        let a = Object.entries(volunteer.row.volunteerType[0])
-        let b = [];
-        // map through array  to find true
-        a.map((value, index) => {
-            // console.log(value[1])
-            if (value[1]) {
-                b.push(value[0])
-            }
-        })
-        // create an array of 'images'
-        b.map((value, index) => {
-            const types = ['CE', 'SGF', 'MIM', 'TS', 'CR', 'DE', 'Social Media', 'ESSL', 'DRCOG', 'TRAIN', 'DEV']
+    let badgeBlock = []
+    if (volunteer.row.volunteerType) {
+        if (volunteer.row.volunteerType.includes('CE')) {
+            badgeBlock.push(badgeRender({
+                label: 'CE',
+                text: 'Community Educator',
+                color: 'blue'
+            }))
+        }
 
-            if (value === 'CE') {
-                b[index] = badgeRender({
-                    label: 'CE',
-                    text: 'Community Educator',
-                    color: 'blue'
-                })
+        if (volunteer.row.volunteerType.includes('SGF')) {
+            badgeBlock.push(badgeRender({
+                label: 'SGF',
+                text: 'Support Group Facilitator',
+                color: 'green'
+            }))
+        }
 
-            }
-
-            if (value === 'SGF') {
-                b[index] = badgeRender({
-                    label: 'SGF',
-                    text: 'Support Group Facilitator',
-                    color: 'green'
-                })
-            }
-            if (value === 'MIM') {
-                b[index] = badgeRender({
-                    label: 'MIM',
-                    text: 'MIM',
-                    color: 'red'
-                })
-            }
-            if (value === 'TS') {
-                b[index] = badgeRender({
-                    label: 'TS',
-                    text: 'Technical Support',
-                    color: 'yellow'
-                })
-            }
-            if (value === 'CR') {
-                b[index] = badgeRender({
-                    label: 'CR',
-                    text: 'CR',
-                    color: 'orange'
-                })
-            }
-            if (value === 'DE') {
-                b[index] = badgeRender({
-                    label: 'DE',
-                    text: 'Developer',
-                    color: 'purple'
-                })
-            }
-            if (value === 'Social Media') {
-                b[index] = badgeRender({
-                    label: 'Social Media',
-                    text: 'Social Media',
-                    color: 'blue'
-                })
-            }
-            if (value === 'ESSL') {
-                b[index] = badgeRender({
-                    label: 'ESSL',
-                    text: 'ESSL',
-                    color: 'green'
-                })
-            }
-            if (value === 'DRCOG') {
-                b[index] = badgeRender({
-                    label: 'DRCOG',
-                    text: 'DRCOG',
-                    color: 'red'
-                })
-            }
-            if (value === 'TRAIN') {
-                b[index] = badgeRender({
-                    label: 'TRAIN',
-                    text: 'TRAIN',
-                    color: 'yellow'
-                })
-            }
-            if (value === 'DEV') {
-                b[index] = badgeRender({
-                    label: 'DEV',
-                    text: 'DEV',
-                    color: 'orange'
-                })
-            }
-
-        })
+        if (volunteer.row.volunteerType.includes('MIM')) {
+            badgeBlock.push(badgeRender({
+                label: 'MIM',
+                text: 'MIM',
+                color: 'red'
+            }))
+        }
+        if (volunteer.row.volunteerType.includes('TS')) {
+            badgeBlock.push(badgeRender({
+                label: 'TS',
+                text: 'Technical Support',
+                color: 'yellow'
+            }))
+        }
+        if (volunteer.row.volunteerType.includes('CR')) {
+            badgeBlock.push(badgeRender({
+                label: 'CR',
+                text: 'CR',
+                color: 'orange'
+            }))
+        }
+        if (volunteer.row.volunteerType.includes('DE')) {
+            badgeBlock.push(badgeRender({
+                label: 'DE',
+                text: 'Developer',
+                color: 'purple'
+            }))
+        }
+        if (volunteer.row.volunteerType.includes('Social Media')) {
+            badgeBlock.push(badgeRender({
+                label: 'Social Media',
+                text: 'Social Media',
+                color: 'brightgreen'
+            }))
+        }
+        if (volunteer.row.volunteerType.includes('ESSL')) {
+            badgeBlock.push(badgeRender({
+                label: 'ESSL',
+                text: 'ESSL',
+                color: 'darkblue'
+            }))
+        }
+        if (volunteer.row.volunteerType.includes('DRCOG')) {
+            badgeBlock.push(badgeRender({
+                label: 'DRCOG',
+                text: 'DRCOG',
+                color: 'pink'
+            }))
+        }
+        if (volunteer.row.volunteerType.includes('TRAIN')) {
+            badgeBlock.push(badgeRender({
+                label: 'TRAIN',
+                text: 'In Training',
+                color: 'brown'
+            }))
+        }
+        if (volunteer.row.volunteerType.includes('DEV')) {
+            badgeBlock.push(badgeRender({
+                label: 'DEV',
+                text: 'DEV',
+                color: 'violet'
+            }))
+        }
 
 
-        return (
-            <div>
-                {b}
-            </div>
-        )
-
-
-
-
-    } else {
 
     }
 
-    // todo return badges for each volunteer type
+    return (
+        <div>
+            {badgeBlock}
+        </div>
+    )
 
 
 }
 
-
-function handleTypeChange(e) {
-    console.log(e.target.value)
-}
 function All(props) {
     let volunteers = JSON.parse(props.result)
 
@@ -186,7 +160,7 @@ function All(props) {
             width: 200,
             editable: true,
             renderCell: (params) => {
-                return volParser(params)
+                return typeParser(params)
             },
         },
         {
@@ -290,19 +264,21 @@ function All(props) {
     };
 
     return (
-        <div style={{ height: '100vh', width: '100vw' }}>
-            <div style={{ display: 'flex', height: '100%' }}>
-                <div style={{ flexGrow: 1 }}>
-                    <DataGrid
-                        rows={rows}
-                        columns={columns}
-                        checkboxSelection
-                        disableSelectionOnClick
-                        components={{ Toolbar: GridToolbar }}
-                        getRowHeight={() => 'auto'}
-                        experimentalFeatures={{ newEditingApi: true }}
-                        onCellEditStop={handleCellEditStop}
-                    />
+        <div>
+            <div style={{ height: '100vh', width: '100vw' }}>
+                <div style={{ display: 'flex', height: '100%' }}>
+                    <div style={{ flexGrow: 1 }}>
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            checkboxSelection
+                            disableSelectionOnClick
+                            components={{ Toolbar: GridToolbar }}
+                            getRowHeight={() => 'auto'}
+                            experimentalFeatures={{ newEditingApi: true }}
+                            onCellEditStop={handleCellEditStop}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
