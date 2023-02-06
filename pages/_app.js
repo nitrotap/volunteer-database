@@ -1,7 +1,6 @@
 import React from 'react'
 import { CacheProvider } from '@emotion/react'
 import { ThemeProvider, CssBaseline } from '@mui/material'
-import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 
 import createEmotionCache from '../lib/utils/styleCache'

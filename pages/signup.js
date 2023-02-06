@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';

@@ -1,23 +1,110 @@
 import React from "react"
 import { useEffect } from 'react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { Button, Container, Box } from "@mui/material";
+import { Button, Container, Box, Popover, Typography, Badge, Grid } from "@mui/material";
 import connection from '../db/connection'
 // import User from '../db/models/User';
 import Volunteer from "../db/models/Volunteer";
 
-
 function badgeRender(badge) {
 
-    let site = `https://img.shields.io/badge/${badge.label}-${badge.text}-${badge.color}`
+    if (badge) {
+        let site = `https://img.shields.io/badge/${badge.label}-${badge.text}-${badge.color}`
 
-    return (
-        <div key={badge.label}>
-            <img src={site} alt="badge" />
-        </div>
-    )
+        return (
+            <Box key={badge.label}>
+                <img src={site} alt="badge" />
+            </Box>
+        )
+    } else {
+        return null
+    }
 
 }
+
+const CEBadge = {
+    label: 'CE',
+    text: 'Community Educator',
+    color: 'blue'
+}
+
+const SGFBadge = {
+    label: 'SGF',
+    text: 'Support Group Facilitator',
+    color: 'green'
+}
+
+const MIMBadge = {
+    label: 'MIM',
+    text: 'Memories in the Making',
+    color: 'red'
+}
+
+const TSBadge = {
+    label: 'TS',
+    text: 'Tech Support',
+    color: 'yellow'
+}
+
+const CRBadge = {
+    label: 'CR',
+    text: 'CR',
+    color: 'orange'
+}
+
+const DEBadge = {
+    label: 'DE',
+    text: 'Developer',
+    color: 'purple'
+}
+
+const SMBadge = {
+    label: 'Social Media',
+    text: 'Social Media',
+    color: 'brightgreen'
+}
+
+const ESSLBadge = {
+    label: 'ESSL',
+    text: 'ESSL',
+    color: 'darkblue'
+}
+
+const DRCOGBadge = {
+    label: 'DRCOG',
+    text: 'DRCOG',
+    color: 'pink'
+}
+
+const TRAINBadge = {
+    label: 'TRAIN',
+    text: 'In Training',
+    color: 'brown'
+}
+
+const DEVBadge = {
+    label: 'DEV',
+    text: 'DEV',
+    color: 'violet'
+}
+
+const badgeMap = {
+    CE: CEBadge,
+    SGF: SGFBadge,
+    MIM: MIMBadge,
+    TS: TSBadge,
+    CR: CRBadge,
+    DE: DEBadge,
+    SM: SMBadge,
+    ESSL: ESSLBadge,
+    DRCOG: DRCOGBadge,
+    TRAIN: TRAINBadge,
+    DEV: DEVBadge
+}
+
+
+
+
 
 function typeParser(volunteer) {
     // console.log(volunteer.row.volunteerType + volunteer.id)
@@ -118,11 +205,56 @@ function typeParser(volunteer) {
 }
 
 function All(props) {
-    let volunteers = JSON.parse(props.result)
+    const volunteers = JSON.parse(props.result)
+    const [selectedRows, setSelectedRows] = React.useState([]);
+
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [value, setValue] = React.useState('');
+    const [rowHover, setRowHover] = React.useState('');
+
+    function tooltipTypeParser(obj) {
+        // map over obj.volunteerType and return badgeRender for every item in the array
+
+        if (rowHover.volunteerType) {
+            const badgeElement = obj.volunteerType.map((badge) => {
+                console.log(badge)
+                return badgeRender(badgeMap[badge])
+
+                return badgeRender(badge)
+            })
+
+            return (
+                <div>
+                    {badgeElement}
+                </div>
+            )
+        }
 
 
 
-    let rows = volunteers.map((volunteer) => {
+
+    }
+
+
+    const handlePopoverOpen = (event) => {
+        const field = event.currentTarget.dataset.field;
+        const id = event.currentTarget.parentElement.dataset.id;
+        const row = rows.find((r) => r.id === id);
+        setValue(row[field]);
+        setRowHover(row);
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+
+
+
+    const rows = volunteers.map((volunteer) => {
         return {
             id: volunteer._id,
             firstName: volunteer.firstName,
@@ -233,15 +365,6 @@ function All(props) {
     // };
 
     const handleCellEditStop = async (params, event) => {
-        // event.defaultMuiPrevented = true;
-        // console.log(event)
-        // console.log(params)
-
-        // console.log(event.target)
-        // console.log(event.target.value)
-        // console.log(event.target.name)
-
-
         try {
             const res = await fetch(`/api/volunteers/${params.id}`, {
                 method: 'PUT',
@@ -259,14 +382,114 @@ function All(props) {
         } catch (err) {
             console.log(err)
         }
-
-
     };
+
+    function Overdue(rowHover) {
+        const [overdueCOI, setOverdueCOI] = React.useState(false);
+        const [overdueBackgroundCheck, setOverdueBackgroundCheck] = React.useState(false);
+        const [overdueMissionConversation, setOverdueMissionConversation] = React.useState(false);
+        const [overdue, setOverdue] = React.useState(false);
+
+        useEffect(() => {
+            if (overdueCOI || overdueBackgroundCheck || overdueMissionConversation) {
+                setOverdue(true)
+            }
+        }, [rowHover])
+
+        useEffect(() => {
+            const date = new Date();
+            const oneYear = new Date(date.getFullYear() - 1, date.getMonth(), date.getDate());
+
+            if (rowHover.lastMissionConversation < oneYear) {
+                setOverdueCOI(true)
+            } else {
+                setOverdueCOI(false)
+            }
+
+        }, [rowHover])
+
+        useEffect(() => {
+            const date = new Date();
+            const oneYear = new Date(date.getFullYear() - 1, date.getMonth(), date.getDate());
+
+            if (rowHover.lastBackgroundCheck < oneYear) {
+                setOverdueCOI(true)
+            } else {
+                setOverdueCOI(false)
+            }
+
+        }, [rowHover])
+
+        useEffect(() => {
+            // if rowHover.lastCOI is greater than 365 days from today's date, set overdueCOI to true
+            const date = new Date();
+            const oneYear = new Date(date.getFullYear() - 1, date.getMonth(), date.getDate());
+
+            if (rowHover.lastCOI < oneYear) {
+                setOverdueCOI(true)
+            } else {
+                setOverdueCOI(false)
+            }
+
+        }, [rowHover])
+
+        return (
+            <Container>
+                <Typography>Overdue</Typography>
+                <Grid container spacing={5} sx={{ minWidth: 200 }}>
+                    <Grid item>COI</Grid>
+                    <Grid item>{overdueCOI ? <Badge color='error' badgeContent="overdue" /> : <Badge color="success" badgeContent="passing" />}</Grid>
+                </Grid>
+                <Grid container spacing={5} sx={{ minWidth: 200 }}>
+                    <Grid item>Last Background Check</Grid>
+                    <Grid item>{overdueBackgroundCheck ? <Badge color='error' badgeContent="overdue" /> : <Badge color="success" badgeContent="passing" />}</Grid>
+                </Grid>
+                <Grid container spacing={5} sx={{ minWidth: 200 }}>
+                    <Grid item>Last Mission Conversation</Grid>
+                    <Grid item>{overdueMissionConversation ? <Badge color='error' badgeContent="overdue" /> : <Badge color="success" badgeContent="passing" />}</Grid>
+                </Grid>
+
+
+            </Container>
+        )
+
+        // return (
+        //     <Container>
+        //         <Typography>Overdue</Typography>
+
+        //         <div sx={"display: flex; flex-direction: row; flex-wrap: no-wrap;"}>
+        //             <div>
+        //                 <Typography>COI</Typography>
+        //             </div>
+        //             <div>
+        //                 <Typography>
+        //                     {overdueCOI ? <Badge color="error" badgeContent="overdue" /> : null}
+        //                 </Typography>
+        //             </div>
+
+        //         </div>
+        //         {overdue ? <Badge color="error" badgeContent="overdue" /> : null}
+        //     </Container>
+        // )
+
+    }
 
     return (
         <div>
+            <div>
+                <Button variant="contained" color="primary" onClick={() => { window.location.assign('./new') }}>
+                    Add Volunteer
+                </Button>
+                <Button variant="contained" color="primary" onClick={() => { window.location.assign('./new') }}>
+                    Edit Single Volunteer
+                </Button>
+                <Button variant="contained" color="primary" onClick={() => { window.location.assign('./new') }}>
+                    View All volunteers
+                </Button>
+            </div>
             <div style={{ height: '100vh', width: '100vw' }}>
                 <div style={{ display: 'flex', height: '100%' }}>
+
                     <div style={{ flexGrow: 1 }}>
                         <DataGrid
                             rows={rows}
@@ -277,7 +500,62 @@ function All(props) {
                             getRowHeight={() => 'auto'}
                             experimentalFeatures={{ newEditingApi: true }}
                             onCellEditStop={handleCellEditStop}
+                            onSelectionModelChange={(ids) => {
+                                const selectedIDs = new Set(ids);
+                                const selectedRows = rows.filter((row) =>
+                                    selectedIDs.has(row.id),
+                                );
+
+                                setSelectedRows(selectedRows);
+                                console.log(selectedRows)
+                            }}
+                            componentsProps={{
+                                cell: {
+                                    onMouseEnter: handlePopoverOpen,
+                                    onMouseLeave: handlePopoverClose,
+                                }
+                            }}
                         />
+                        <Popover
+                            sx={{
+                                pointerEvents: 'none',
+                            }}
+                            open={open}
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            onClose={handlePopoverClose}
+                            disableRestoreFocus
+                        >
+                            {/* <Typography sx={{ p: 1 }}>{`${value.length} characters.`}</Typography> */}
+
+                            <Grid container spacing={3} sx={{ p: 3, minWidth: 400 }}>
+                                <Grid item>
+                                    <Typography>{`${rowHover.firstName + ' ' + rowHover.lastName}`}</Typography>
+                                    <Typography>{`${rowHover.email}`}</Typography>
+                                    <Typography>{`tel: ${rowHover.phoneNumber}`}</Typography>
+                                    <Box>{badgeRender({
+                                        label: 'CRM ID',
+                                        text: rowHover.CRM_ID,
+                                        color: 'violet'
+                                    })}</Box>
+                                </Grid>
+                                <Grid item>{tooltipTypeParser(rowHover)}</Grid>
+
+                                <Grid item>{Overdue(rowHover)}</Grid>
+
+                            </Grid>
+
+                        </Popover>
+
+
+
                     </div>
                 </div>
             </div>
@@ -285,6 +563,8 @@ function All(props) {
 
     );
 }
+
+
 
 export async function getServerSideProps() {
     await connection();
