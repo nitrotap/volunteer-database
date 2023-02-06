@@ -437,40 +437,23 @@ function All(props) {
             <Container>
                 <Typography>Overdue</Typography>
                 <Grid container spacing={5} sx={{ minWidth: 200 }}>
-                    <Grid item>COI</Grid>
                     <Grid item>{overdueCOI ? <Badge color='error' badgeContent="overdue" /> : <Badge color="success" badgeContent="passing" />}</Grid>
+                    <Grid item>COI</Grid>
                 </Grid>
                 <Grid container spacing={5} sx={{ minWidth: 200 }}>
-                    <Grid item>Last Background Check</Grid>
                     <Grid item>{overdueBackgroundCheck ? <Badge color='error' badgeContent="overdue" /> : <Badge color="success" badgeContent="passing" />}</Grid>
+                    <Grid item>Last Background Check</Grid>
+
                 </Grid>
                 <Grid container spacing={5} sx={{ minWidth: 200 }}>
-                    <Grid item>Last Mission Conversation</Grid>
                     <Grid item>{overdueMissionConversation ? <Badge color='error' badgeContent="overdue" /> : <Badge color="success" badgeContent="passing" />}</Grid>
+                    <Grid item>Last Mission Conversation</Grid>
+
                 </Grid>
 
 
-            </Container>
+            </Container >
         )
-
-        // return (
-        //     <Container>
-        //         <Typography>Overdue</Typography>
-
-        //         <div sx={"display: flex; flex-direction: row; flex-wrap: no-wrap;"}>
-        //             <div>
-        //                 <Typography>COI</Typography>
-        //             </div>
-        //             <div>
-        //                 <Typography>
-        //                     {overdueCOI ? <Badge color="error" badgeContent="overdue" /> : null}
-        //                 </Typography>
-        //             </div>
-
-        //         </div>
-        //         {overdue ? <Badge color="error" badgeContent="overdue" /> : null}
-        //     </Container>
-        // )
 
     }
 
@@ -512,7 +495,7 @@ function All(props) {
                             componentsProps={{
                                 cell: {
                                     onMouseEnter: handlePopoverOpen,
-                                    onMouseLeave: handlePopoverClose,
+                                    on: handlePopoverClose
                                 }
                             }}
                         />
@@ -533,8 +516,6 @@ function All(props) {
                             onClose={handlePopoverClose}
                             disableRestoreFocus
                         >
-                            {/* <Typography sx={{ p: 1 }}>{`${value.length} characters.`}</Typography> */}
-
                             <Grid container spacing={3} sx={{ p: 3, minWidth: 400 }}>
                                 <Grid item>
                                     <Typography>{`${rowHover.firstName + ' ' + rowHover.lastName}`}</Typography>
