@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-// import Auth from '../utils/auth';
-// import { ADD_USER } from '../utils/mutations';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -21,7 +19,6 @@ import Link from 'next/link'
 
 function Signup(props) {
   const [formState, setFormState] = useState({ email: '', password: '' });
-  // const [addUser] = useMutation(ADD_USER);
   const [emailState, setEmailState] = useState(false);
   const [passwordState, setPasswordState] = useState(false);
   const [pwHelper, setPwHelper] = useState('');
@@ -34,13 +31,26 @@ function Signup(props) {
     formState.email = formState.email.toLowerCase();
 
     try {
-      // const mutationResponse = await addUser({
-      //   variables: {
-      //     email: formState.email,
-      //     password: formState.password,
-      //   },
-      // });
+      // send a post message to the server sending the email and password
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        body: JSON.stringify(formState),
+        headers: { 'Content-Type': 'application/json' },
+      });
 
+      response.json().then((data) => {
+        console.log('data', data)
+        if (data.error) {
+          setEmailState(false)
+          setEmailHelper('Email already exists. Please try logging in.')
+        } else {
+          setEmailState(true)
+          setEmailHelper('Account created. Please log in.')
+          window.location.href = '/login'
+        }
+      })
+
+      //todo add sessions
       // const token = mutationResponse.data.addUser.token;
       // Auth.login(token);
     } catch (error) {

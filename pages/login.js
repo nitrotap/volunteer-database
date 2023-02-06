@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-// import Auth from '../utils/auth';
-// import { ADD_USER } from '../utils/mutations';
 import { useSession, signIn, signOut } from "next-auth/react"
 
 import Avatar from '@mui/material/Avatar';
@@ -22,7 +19,6 @@ import Link from 'next/link'
 
 function Login(props) {
     const [formState, setFormState] = useState({ email: '', password: '' });
-    // const [addUser] = useMutation(ADD_USER);
     const [emailState, setEmailState] = useState(false);
     const [passwordState, setPasswordState] = useState(false);
     const [pwHelper, setPwHelper] = useState('');
@@ -35,15 +31,25 @@ function Login(props) {
         formState.email = formState.email.toLowerCase();
 
         try {
-            // const mutationResponse = await addUser({
-            //   variables: {
-            //     email: formState.email,
-            //     password: formState.password,
-            //   },
-            // });
+            // send a post message to the server sending the email and password, checking the password, and returning a token
+            const response = await fetch('/api/users/login', {
+                method: 'POST',
+                body: JSON.stringify(formState),
+                headers: { 'Content-Type': 'application/json' },
+            });
 
-            // const token = mutationResponse.data.addUser.token;
-            // Auth.login(token);
+            response.json().then((data) => {
+                console.log('data', data)
+                if (data.error) {
+                    setEmailState(false)
+                    setEmailHelper('Email or password is incorrect. Please try again.')
+                } else {
+                    setEmailState(true)
+                    setEmailHelper('Login successful. Redirecting...')
+                    window.location.href = '/'
+                }
+            })
+
         } catch (error) {
             setEmailState(false)
             setEmailHelper('Email already exists. Please try logging in.')

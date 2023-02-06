@@ -21,13 +21,29 @@ export default async function handler(req, res) {
       };
       break;
     case 'POST':
+      // create a new volunteer and return json
       try {
-        // create volunteer and return json
-        const volunteer = await Volunteer.create(req.body);
+        const volunteer = await Volunteer.create({
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          preferredName: req.body.preferredName,
+          email: req.body.email,
+          phoneNumber: req.body.phone,
+          CRM_ID: req.body.CRM_ID,
+          dateStarted: req.body.dateStarted,
+          volunteerType: req.body.volunteerType,
+          lastCOI: req.body.lastCOI,
+          lastBackgroundCheck: req.body.lastBackgroundCheck,
+          lastMissionConversation: req.body.lastMissionConversation,
+          staffPartner: req.body.staffPartner,
+          techNeeded: req.body.techNeeded,
+          notes: req.body.notes
+        })
         res.status(201).json({ success: true, data: volunteer });
       } catch (err) {
+        console.log(err)
         res.status(400).json({ success: false, message: err });
-      };
+      }
       break;
     default:
       // in case the wrong header gets sent to this API, return header not accepted
