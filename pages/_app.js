@@ -2,7 +2,6 @@ import React from 'react'
 import { CacheProvider } from '@emotion/react'
 import { ThemeProvider, CssBaseline } from '@mui/material'
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { SessionProvider } from "next-auth/react"
 
 
 import createEmotionCache from '../lib/utils/styleCache'
@@ -23,11 +22,8 @@ function App(props) {
   return (
     <CacheProvider value={clientStyleCache}>
       <ThemeProvider theme={lightTheme}>
-        <SessionProvider session={session}>
-          <CssBaseline />
-          <Component {...pageProps} />
-        </SessionProvider>
-
+        <CssBaseline />
+        <Component {...pageProps} />
       </ThemeProvider>
     </CacheProvider>
   )
