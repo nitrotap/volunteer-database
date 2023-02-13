@@ -1,7 +1,7 @@
 import React from "react"
 import { useEffect } from 'react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { Button, Container, Box, Popover, Typography, Badge, Grid } from "@mui/material";
+import { Button, Container, Box, Popover, Typography, Badge, Grid, Tooltip } from "@mui/material";
 import connection from '../db/connection'
 // import User from '../db/models/User';
 import Volunteer from "../db/models/Volunteer";
@@ -213,6 +213,9 @@ function All(props) {
     const [value, setValue] = React.useState('');
     const [rowHover, setRowHover] = React.useState('');
 
+    const open = Boolean(anchorEl);
+    // const [open, setOpen] = React.useState(Boolean(anchorEl))
+
     function tooltipTypeParser(obj) {
         // map over obj.volunteerType and return badgeRender for every item in the array
 
@@ -248,9 +251,11 @@ function All(props) {
 
     const handlePopoverClose = () => {
         setAnchorEl(null);
+        // setOpen(null);
+        setRowHover('');
+        console.log('popover close');
     };
 
-    const open = Boolean(anchorEl);
 
 
 
@@ -377,7 +382,10 @@ function All(props) {
 
             if (!res.ok) {
                 throw new Error('Something went wrong')
+            } else {
+                window.location.reload();
             }
+
 
         } catch (err) {
             console.log(err)
@@ -477,25 +485,25 @@ function All(props) {
                         <DataGrid
                             rows={rows}
                             columns={columns}
-                            checkboxSelection
+                            // checkboxSelection
                             disableSelectionOnClick
                             components={{ Toolbar: GridToolbar }}
                             getRowHeight={() => 'auto'}
                             experimentalFeatures={{ newEditingApi: true }}
                             onCellEditStop={handleCellEditStop}
-                            onSelectionModelChange={(ids) => {
-                                const selectedIDs = new Set(ids);
-                                const selectedRows = rows.filter((row) =>
-                                    selectedIDs.has(row.id),
-                                );
+                            // onSelectionModelChange={(ids) => {
+                            //     const selectedIDs = new Set(ids);
+                            //     const selectedRows = rows.filter((row) =>
+                            //         selectedIDs.has(row.id),
+                            //     );
 
-                                setSelectedRows(selectedRows);
-                                console.log(selectedRows)
-                            }}
+                            //     setSelectedRows(selectedRows);
+                            //     console.log(selectedRows)
+                            // }}
                             componentsProps={{
                                 cell: {
                                     onMouseEnter: handlePopoverOpen,
-                                    on: handlePopoverClose
+                                    onClick: handlePopoverClose
                                 }
                             }}
                         />
@@ -514,7 +522,7 @@ function All(props) {
                                 horizontal: 'left',
                             }}
                             onClose={handlePopoverClose}
-                            disableRestoreFocus
+
                         >
                             <Grid container spacing={3} sx={{ p: 3, minWidth: 400 }}>
                                 <Grid item>
