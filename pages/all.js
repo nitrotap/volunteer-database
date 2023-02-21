@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { Button, Container, Box, Popover, Typography, Badge, Grid, Tooltip } from "@mui/material";
 import connection from '../db/connection'
+import Image from 'next/image'
 // import User from '../db/models/User';
 import Volunteer from "../db/models/Volunteer";
 
@@ -13,7 +14,7 @@ function badgeRender(badge) {
 
         return (
             <Box key={badge.label}>
-                <img src={site} alt="badge" />
+                <Image src={site} alt="badge" />
             </Box>
         )
     } else {
@@ -297,7 +298,7 @@ function All(props) {
             width: 200,
             editable: true,
             renderCell: (params) => {
-                return typeParser(params)
+                return typeParser(params) || params;
             },
         },
         {

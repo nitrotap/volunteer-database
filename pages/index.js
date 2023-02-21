@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import Copyright from '../components/Copyright'
 export default function Home() {
@@ -21,25 +22,25 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-          <a href="/signup" className={styles.card}>
+          <Link href="/signup" className={styles.card}>
             <h2>Sign-Up &rarr;</h2>
             <p>Make an Account!</p>
-          </a>
+          </Link>
 
-          <a href="/login" className={styles.card}>
+          <Link href="/login" className={styles.card}>
             <h2>Login &rarr;</h2>
             <p>Already have an account? Log in to pick up where you left off!</p>
-          </a>
+          </Link>
 
-          <a
+          <Link
             href="/new"
             className={styles.card}
           >
             <h2>Add a volunteer &rarr;</h2>
             <p>Go straight to adding another great volunteer!</p>
-          </a>
+          </Link>
 
-          <a
+          <Link
             href="/all"
             className={styles.card}
           >
@@ -47,7 +48,7 @@ export default function Home() {
             <p>
               View all your volunteers!
             </p>
-          </a>
+          </Link>
         </div>
       </main>
 
