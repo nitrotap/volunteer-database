@@ -7,22 +7,6 @@ import Image from 'next/image'
 // import User from '../db/models/User';
 import Volunteer from "../db/models/Volunteer";
 
-function badgeRender(badge) {
-
-    if (badge) {
-        let site = `https://img.shields.io/badge/${badge.label}-${badge.text}-${badge.color}`
-
-        return (
-            <Box key={badge.label}>
-                <img layout='fill' src={site} alt="badge" />
-            </Box>
-        )
-    } else {
-        return null
-    }
-
-}
-
 const CEBadge = {
     label: 'CE',
     text: 'Community Educator',
@@ -106,9 +90,19 @@ const badgeMap = {
 
 
 
+function badgeRender(badge) {
+    if (badge) {
+        let site = `https://img.shields.io/badge/${badge.label}-${badge.text}-${badge.color}`
+        return (
+            <Box key={badge.label}>
+                <img layout='fill' src={site} alt="badge" />
+            </Box>
+        )
+    }
+
+}
 
 function typeParser(volunteer) {
-    // console.log(volunteer.row.volunteerType + volunteer.id)
 
     let badgeBlock = []
     if (volunteer.row.volunteerType) {
@@ -205,6 +199,17 @@ function typeParser(volunteer) {
 
 }
 
+function formatDate(params) {
+    if (params.formattedValue) {
+        const date = new Date(params.formattedValue);
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const year = date.getFullYear();
+
+        const formattedDate = `${month}-${day}-${year}`;
+        return formattedDate;
+    }
+}
 function All(props) {
     const volunteers = JSON.parse(props.result)
     const [selectedRows, setSelectedRows] = React.useState([]);
@@ -298,7 +303,7 @@ function All(props) {
             width: 200,
             editable: true,
             renderCell: (params) => {
-                return typeParser(params) || params;
+                return typeParser(params);
             },
         },
         {
@@ -323,25 +328,37 @@ function All(props) {
             field: 'dateStarted',
             headerName: 'Date Started',
             type: 'date',
-            editable: true
+            editable: true,
+            renderCell: (params) => {
+                return formatDate(params)
+            }
         },
         {
             field: 'lastCOI',
             headerName: 'Last COI',
             type: 'date',
-            editable: true
+            editable: true,
+            renderCell: (params) => {
+                return formatDate(params)
+            }
         },
         {
             field: 'lastBackgroundCheck',
             headerName: 'Last Background Check',
             type: 'date',
-            editable: true
+            editable: true,
+            renderCell: (params) => {
+                return formatDate(params)
+            }
         },
         {
             field: 'lastMissionConversation',
             headerName: 'Last Mission Conversation',
             type: 'date',
-            editable: true
+            editable: true,
+            renderCell: (params) => {
+                return formatDate(params)
+            }
         },
         {
             field: 'staffPartner',

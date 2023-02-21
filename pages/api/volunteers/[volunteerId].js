@@ -1,4 +1,5 @@
-import connection from '../../../db/connection';
+import connection from '../../../db/connection'
+
 import { Volunteer } from '../../../db/models';
 
 // .../api/volunteers/[volunteerId] routes here
@@ -15,7 +16,7 @@ export default async function handler(req, res) {
       try {
         // find one volunteer and return json
         const volunteer = await Volunteer.findOne({ _id: volunteerId })
-        .select("-__v");
+          .select("-__v");
         if (!volunteer) {
           res.status(404).end(`No Volunteer Found With This Id`);
           break;
@@ -32,7 +33,7 @@ export default async function handler(req, res) {
           new: true,
           runValidators: true,
         })
-        .select("-__v");
+          .select("-__v");
 
         if (!volunteer) {
           res.status(404).end(`No Volunteer Found With This Id`);
@@ -47,7 +48,7 @@ export default async function handler(req, res) {
       try {
         // find one volunteer and delete
         const volunteer = await Volunteer.findOneAndDelete({ _id: volunteerId })
-        .select("-__v");
+          .select("-__v");
         if (!volunteer) {
           res.status(404).end(`No Volunteer Found With This Id`);
           break;
