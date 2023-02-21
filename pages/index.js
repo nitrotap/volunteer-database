@@ -23,31 +23,44 @@ export default function Home() {
 
         <div className={styles.grid}>
           <Link href="/signup" className={styles.card}>
-            <h2>Sign-Up &rarr;</h2>
-            <p>Make an Account!</p>
+            <div>
+              <h2>Sign-Up &rarr;</h2>
+              <p>Make an Account!</p>
+
+            </div>
           </Link>
 
           <Link href="/login" className={styles.card}>
-            <h2>Login &rarr;</h2>
-            <p>Already have an account? Log in to pick up where you left off!</p>
+            <div>
+              <h2>Login &rarr;</h2>
+              <p>Already have an account? Log in to pick up where you left off!</p>
+
+            </div>
           </Link>
 
           <Link
             href="/new"
             className={styles.card}
           >
-            <h2>Add a volunteer &rarr;</h2>
-            <p>Go straight to adding another great volunteer!</p>
+            <div>
+              <h2>Add a volunteer &rarr;</h2>
+              <p>Go straight to adding another great volunteer!</p>
+
+
+            </div>
           </Link>
 
           <Link
             href="/all"
             className={styles.card}
           >
-            <h2>All Volunteers &rarr;</h2>
-            <p>
-              View all your volunteers!
-            </p>
+            <div>
+              <h2>All Volunteers &rarr;</h2>
+              <p>
+                View all your volunteers!
+              </p>
+
+            </div>
           </Link>
         </div>
       </main>

@@ -1,10 +1,11 @@
-import dbConnect from '../../../lib/dbConnect'
-import User from '../../../models/User'
+// import dbConnect from '../../../lib/dbConnect'
+import connection from '../../db/connection'
+import User from '../../db/models/User'
 
 export default async function handler(req, res) {
     const { method } = req
 
-    await dbConnect()
+    await connection()
 
     switch (method) {
         case 'GET':
