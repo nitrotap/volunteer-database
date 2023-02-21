@@ -14,7 +14,7 @@ function badgeRender(badge) {
 
         return (
             <Box key={badge.label}>
-                <Image src={site} alt="badge" />
+                <img layout='fill' src={site} alt="badge" />
             </Box>
         )
     } else {
