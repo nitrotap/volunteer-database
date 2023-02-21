@@ -4,7 +4,6 @@
 
 Website for volunteer tracking using Next.js, MUI, and npm.  
 ![badmath](https://img.shields.io/github/languages/top/nitrotap/volunteer-database)
-![badmath](https://img.shields.io/github/languages/top/nitrotap/volunteer-database)  
 ![badmath](https://img.shields.io/github/issues/nitrotap/volunteer-database)
 ![badmath](https://img.shields.io/github/forks/nitrotap/volunteer-database)  
 ![badmath](https://img.shields.io/github/stars/nitrotap/volunteer-database)
