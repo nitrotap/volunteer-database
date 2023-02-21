@@ -105,8 +105,9 @@ function badgeRender(badge) {
 function typeParser(volunteer) {
 
     let badgeBlock = []
-    if (volunteer.row.volunteerType) {
-        if (volunteer.row.volunteerType.includes('CE')) {
+    console.log(volunteer.row.volunteerType)
+    if (volunteer.row.volunteerType[0]) {
+        if (volunteer.row.volunteerType[0].includes('CE')) {
             badgeBlock.push(badgeRender({
                 label: 'CE',
                 text: 'Community Educator',
@@ -114,7 +115,7 @@ function typeParser(volunteer) {
             }))
         }
 
-        if (volunteer.row.volunteerType.includes('SGF')) {
+        if (volunteer.row.volunteerType[0].includes('SGF')) {
             badgeBlock.push(badgeRender({
                 label: 'SGF',
                 text: 'Support Group Facilitator',
@@ -122,63 +123,63 @@ function typeParser(volunteer) {
             }))
         }
 
-        if (volunteer.row.volunteerType.includes('MIM')) {
+        if (volunteer.row.volunteerType[0].includes('MIM')) {
             badgeBlock.push(badgeRender({
                 label: 'MIM',
                 text: 'MIM',
                 color: 'red'
             }))
         }
-        if (volunteer.row.volunteerType.includes('TS')) {
+        if (volunteer.row.volunteerType[0].includes('TS')) {
             badgeBlock.push(badgeRender({
                 label: 'TS',
                 text: 'Technical Support',
                 color: 'yellow'
             }))
         }
-        if (volunteer.row.volunteerType.includes('CR')) {
+        if (volunteer.row.volunteerType[0].includes('CR')) {
             badgeBlock.push(badgeRender({
                 label: 'CR',
                 text: 'CR',
                 color: 'orange'
             }))
         }
-        if (volunteer.row.volunteerType.includes('DE')) {
+        if (volunteer.row.volunteerType[0].includes('DE')) {
             badgeBlock.push(badgeRender({
                 label: 'DE',
                 text: 'Developer',
                 color: 'purple'
             }))
         }
-        if (volunteer.row.volunteerType.includes('Social Media')) {
+        if (volunteer.row.volunteerType[0].includes('Social Media')) {
             badgeBlock.push(badgeRender({
                 label: 'Social Media',
                 text: 'Social Media',
                 color: 'brightgreen'
             }))
         }
-        if (volunteer.row.volunteerType.includes('ESSL')) {
+        if (volunteer.row.volunteerType[0].includes('ESSL')) {
             badgeBlock.push(badgeRender({
                 label: 'ESSL',
                 text: 'ESSL',
                 color: 'darkblue'
             }))
         }
-        if (volunteer.row.volunteerType.includes('DRCOG')) {
+        if (volunteer.row.volunteerType[0].includes('DRCOG')) {
             badgeBlock.push(badgeRender({
                 label: 'DRCOG',
                 text: 'DRCOG',
                 color: 'pink'
             }))
         }
-        if (volunteer.row.volunteerType.includes('TRAIN')) {
+        if (volunteer.row.volunteerType[0].includes('TRAIN')) {
             badgeBlock.push(badgeRender({
                 label: 'TRAIN',
                 text: 'In Training',
                 color: 'brown'
             }))
         }
-        if (volunteer.row.volunteerType.includes('DEV')) {
+        if (volunteer.row.volunteerType[0].includes('DEV')) {
             badgeBlock.push(badgeRender({
                 label: 'DEV',
                 text: 'DEV',
