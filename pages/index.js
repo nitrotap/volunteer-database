@@ -3,6 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import Copyright from '../components/Copyright'
+import { Box, Button, Container } from '@mui/material'
+
 export default function Home() {
   return (
     <div className={styles.container}>
@@ -21,48 +23,72 @@ export default function Home() {
           Create an account to manage your volunteers.
         </p>
 
-        <div className={styles.grid}>
-          <Link href="/signup" className={styles.card}>
-            <div>
-              <h2>Sign-Up &rarr;</h2>
-              <p>Make an Account!</p>
+        <Container style={{ width: '100vw' }}>
+          <Box>
+            <Button style={{ width: '75vw' }}>
+              <Link href="/signup">
+                <Box>
+                  <div className={styles.grid}>
+                    <h2>Sign-Up</h2>
+                  </div>
+                  <div className={styles.grid}>
+                    <p>Make an Account!</p>
+                  </div>
+                </Box>
+              </Link>
+            </Button>
 
-            </div>
-          </Link>
+            <Box>
+              <Button style={{ width: '75vw' }}>
+                <Link href="/login" className={styles.card}>
+                  <div>
+                    <h2>Login</h2>
+                    <p>Already have an account? Log in to pick up where you left off!</p>
 
-          <Link href="/login" className={styles.card}>
-            <div>
-              <h2>Login &rarr;</h2>
-              <p>Already have an account? Log in to pick up where you left off!</p>
+                  </div>
+                </Link>
 
-            </div>
-          </Link>
-
-          <Link
-            href="/new"
-            className={styles.card}
-          >
-            <div>
-              <h2>Add a volunteer &rarr;</h2>
-              <p>Go straight to adding another great volunteer!</p>
+              </Button>
+            </Box>
 
 
-            </div>
-          </Link>
+            <Box>
+              <Button style={{ width: '75vw' }}>
+                <Link
+                  href="/new"
+                  className={styles.card}
+                >
+                  <div>
+                    <h2>Add a volunteer</h2>
+                    <p>Go straight to adding another great volunteer!</p>
 
-          <Link
-            href="/all"
-            className={styles.card}
-          >
-            <div>
-              <h2>All Volunteers &rarr;</h2>
-              <p>
-                View all your volunteers!
-              </p>
 
-            </div>
-          </Link>
-        </div>
+                  </div>
+                </Link>
+
+              </Button>
+            </Box>
+
+            <Box>
+              <Button style={{ width: '75vw' }}>
+                <Link
+                  href="/all"
+                  className={styles.card}
+                >
+                  <div>
+                    <h2>All Volunteers</h2>
+                    <p>
+                      View all your volunteers!
+                    </p>
+
+                  </div>
+                </Link>
+
+              </Button>
+            </Box>
+
+          </Box>
+        </Container>
       </main>
 
       <footer className={styles.footer}>

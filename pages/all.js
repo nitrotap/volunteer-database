@@ -486,18 +486,18 @@ function All(props) {
 
     return (
         <div>
-            <div>
+            <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                 <Button variant="contained" color="primary" onClick={() => { window.location.assign('./new') }}>
                     Add Volunteer
                 </Button>
-                <Button variant="contained" color="primary" onClick={() => { window.location.assign('./new') }}>
+                {/* <Button variant="contained" color="primary" onClick={() => { window.location.assign('./new') }}>
                     Edit Single Volunteer
-                </Button>
-                <Button variant="contained" color="primary" onClick={() => { window.location.assign('./new') }}>
+                </Button> */}
+                <Button variant="contained" color="primary" onClick={() => { window.location.assign('./all') }}>
                     View All volunteers
                 </Button>
             </div>
-            <div style={{ height: '100vh', width: '100vw' }}>
+            <div style={{ height: '95vh', width: '100vw' }}>
                 <div style={{ display: 'flex', height: '100%' }}>
 
                     <div style={{ flexGrow: 1 }}>
@@ -522,7 +522,8 @@ function All(props) {
                             componentsProps={{
                                 cell: {
                                     onMouseEnter: handlePopoverOpen,
-                                    onClick: handlePopoverClose
+                                    onClick: handlePopoverClose,
+                                    onMouseLeave: handlePopoverClose
                                 }
                             }}
                         />
@@ -561,13 +562,10 @@ function All(props) {
                             </Grid>
 
                         </Popover>
-
-
-
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
 
     );
 }
