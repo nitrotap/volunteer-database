@@ -15,8 +15,12 @@ import Container from '@mui/material/Container';
 import Copyright from '../components/Copyright'
 
 import Link from 'next/link'
+import { useRouter } from "next/router";
+
 
 function Signup(props) {
+  const router = useRouter();
+
   const [formState, setFormState] = useState({ email: '', password: '' });
   const [emailState, setEmailState] = useState(false);
   const [passwordState, setPasswordState] = useState(false);
@@ -27,35 +31,36 @@ function Signup(props) {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    formState.email = formState.email.toLowerCase();
+    setEmailState(false)
+    setEmailHelper('Signup disabled. Please try logging in.')
 
-    try {
-      // send a post message to the server sending the email and password
-      const response = await fetch('/api/users', {
-        method: 'POST',
-        body: JSON.stringify(formState),
-        headers: { 'Content-Type': 'application/json' },
-      });
+    // formState.email = formState.email.toLowerCase();
 
-      response.json().then((data) => {
-        console.log('data', data)
-        if (data.error) {
-          setEmailState(false)
-          setEmailHelper('Email already exists. Please try logging in.')
-        } else {
-          setEmailState(true)
-          setEmailHelper('Account created. Please log in.')
-          window.location.href = '/login'
-        }
-      })
+    // try {
+    //   // send a post message to the server sending the email and password
+    //   const response = await fetch('/api/users', {
+    //     method: 'POST',
+    //     body: JSON.stringify(formState),
+    //     headers: { 'Content-Type': 'application/json' },
+    //   });
 
-      //todo add sessions
-      // const token = mutationResponse.data.addUser.token;
-      // Auth.login(token);
-    } catch (error) {
-      setEmailState(false)
-      setEmailHelper('Email already exists. Please try logging in.')
-    }
+    //   response.json().then((data) => {
+    //     console.log('data', data)
+    //     if (data.error) {
+    //       setEmailState(false)
+    //       setEmailHelper('Email already exists. Please try logging in.')
+    //     } else {
+    //       setEmailState(true)
+    //       setEmailHelper('Account created. Please log in.')
+    //       window.location.href = '/login'
+    //     }
+    //   })
+
+
+    // } catch (error) {
+    //   setEmailState(false)
+    //   setEmailHelper('Email already exists. Please try logging in.')
+    // }
   };
 
   const handleChangePw = (event) => {
