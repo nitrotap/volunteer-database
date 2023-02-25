@@ -107,7 +107,7 @@ function badgeRender(badge) {
 function typeParser(volunteer) {
 
     let badgeBlock = []
-    console.log(volunteer.row.volunteerType)
+    // console.log(volunteer.row.volunteerType)
     if (volunteer.row.volunteerType[0]) {
         if (volunteer.row.volunteerType[0].includes('CE')) {
             badgeBlock.push(badgeRender({
@@ -230,7 +230,7 @@ function All(props) {
 
         if (rowHover.volunteerType) {
             const badgeElement = obj.volunteerType.map((badge) => {
-                console.log(badge)
+                // console.log(badge)
                 return badgeRender(badgeMap[badge])
 
                 return badgeRender(badge)
@@ -593,8 +593,6 @@ export const getServerSideProps = withSessionSsr(
 
         await connection();
         const result = await Volunteer.find({})
-        console.log(result)
-
 
         return {
             props: { user, result: JSON.stringify(result) }
