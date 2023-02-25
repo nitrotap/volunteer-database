@@ -1,13 +1,18 @@
 import connection from '../../../db/connection'
+import { withSessionRoute } from "../../../lib/config/withSession";
 
 import { Volunteer } from '../../../db/models';
 
 // .../api/volunteers/[volunteerId] routes here
+export default withSessionRoute(handler);
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   const { method } = req;
   const volunteerId = req.query.volunteerId;
-
+  if (!req.session.user) {
+    res.status(401).end(`Unauthorized`);
+    return;
+  }
   // connect to db
   await connection();
 
