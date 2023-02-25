@@ -6,6 +6,8 @@ import connection from '../db/connection'
 import Image from 'next/image'
 // import User from '../db/models/User';
 import Volunteer from "../db/models/Volunteer";
+import { withSessionSsr } from '../lib/config/withSession';
+
 
 const CEBadge = {
     label: 'CE',
@@ -572,11 +574,34 @@ function All(props) {
 
 
 
-export async function getServerSideProps() {
-    await connection();
+// export async function getServerSideProps() {
+//     await connection();
 
-    const result = await Volunteer.find({})
-    return { props: { result: JSON.stringify(result) } }
-}
+//     const result = await Volunteer.find({})
+//     return { props: { result: JSON.stringify(result) } }
+// }
+
+export const getServerSideProps = withSessionSsr(
+    async ({ req, res }) => {
+        const user = req.session.user;
+
+        if (!user) {
+            return {
+                notFound: true,
+            }
+        }
+
+        await connection();
+        const result = await Volunteer.find({})
+        console.log(result)
+
+
+        return {
+            props: { user, result: JSON.stringify(result) }
+
+        }
+    }
+);
+
 
 export default All;
