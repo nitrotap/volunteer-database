@@ -21,6 +21,7 @@
     "@mui/material": "^5.11.5",
     "@mui/x-data-grid": "^5.15.1",
     "bcrypt": "^5.0.1",
+    "iron-session": "^6.3.1",
     "jwt-decode": "^3.1.2",
     "mongodb": "^4.8.1",
     "mongoose": "^6.5.2",
