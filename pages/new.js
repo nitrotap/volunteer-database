@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { Container, Box, Typography, Card, CardContent, CardActions, TextField, Divider, Grid, Button, ToggleButtonGroup, ToggleButton, Checkbox, FormControl, FormControlLabel, FormLabel, FormGroup } from "@mui/material";
 import styles from '../styles/Home.module.css';
+import { withSessionSsr } from '../lib/config/withSession';
+import Nav from '../components/nav';
 
 
 export default function NewVolunteer(props) {
@@ -244,61 +246,81 @@ export default function NewVolunteer(props) {
 
 
     return (
-        <Container component="main" sx={{
-            backgroundColor: 'white', marginBottom: '250px',
-        }}>
-            <Box
-                sx={{
-                    marginTop: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-                <Typography component="main" sx={{ fontSize: '30pt' }}>
-                    Add a New Volunteer
-                </Typography>
-            </Box>
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'left',
-                }}
-                component="form"
-            >
-                {textForm("First Name", "firstName", true)}
-                {textForm("Last Name", "lastName", true)}
-                {textForm("Preferred Name", "preferredName")}
-                {textForm("Email", "email")}
-                {telForm("Phone Number", "phoneNumber")}
-                {textForm("CRM ID", "CRM_ID")}
-                {dateForm("Date Started", "dateStarted")}
-                {typeForm("Type", "volunteerType", false, state)}
-                {dateForm("Last COI", "lastCOI")}
-                {dateForm("Last Background Check", "lastBackgroundCheck")}
-                {dateForm("Last Mission Conversation", "lastMissionConversation")}
-                {textForm("Staff Partner", "staffPartner")}
-                {textForm("Tech Needed", "techNeeded")}
-                {textForm("Notes", "notes")}
-
-                <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    sx={{ marginTop: '20px' }}
-                    onClick={handleSubmit}
-
+        <div>
+            <Nav />
+            <Container component="main" sx={{
+                backgroundColor: 'white', marginBottom: '250px', top: 50, position: 'relative', borderRadius: '10px'
+            }}>
+                <Box
+                    sx={{
+                        marginTop: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
                 >
-                    Submit
-                </Button>
+                    <Typography component="main" sx={{ fontSize: '30pt' }}>
+                        Add a New Volunteer
+                    </Typography>
+                </Box>
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'left',
+                    }}
+                    component="form"
+                >
+                    {textForm("First Name", "firstName", true)}
+                    {textForm("Last Name", "lastName", true)}
+                    {textForm("Preferred Name", "preferredName")}
+                    {textForm("Email", "email")}
+                    {telForm("Phone Number", "phoneNumber")}
+                    {textForm("CRM ID", "CRM_ID")}
+                    {dateForm("Date Started", "dateStarted")}
+                    {typeForm("Type", "volunteerType", false, state)}
+                    {dateForm("Last COI", "lastCOI")}
+                    {dateForm("Last Background Check", "lastBackgroundCheck")}
+                    {dateForm("Last Mission Conversation", "lastMissionConversation")}
+                    {textForm("Staff Partner", "staffPartner")}
+                    {textForm("Tech Needed", "techNeeded")}
+                    {textForm("Notes", "notes")}
+
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        sx={{ marginTop: '20px' }}
+                        onClick={handleSubmit}
+
+                    >
+                        Submit
+                    </Button>
 
 
-            </Box>
+                </Box>
 
 
 
-        </Container >
+            </Container >
+        </div>
     );
 }
+
+export const getServerSideProps = withSessionSsr(
+    async ({ req, res }) => {
+        const user = req.session.user;
+
+        if (!user) {
+            return {
+                notFound: true,
+            }
+        }
+
+        return {
+            props: { user }
+
+        }
+    }
+);

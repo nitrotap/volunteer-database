@@ -7,6 +7,10 @@ import Image from 'next/image'
 // import User from '../db/models/User';
 import Volunteer from "../db/models/Volunteer";
 import { withSessionSsr } from '../lib/config/withSession';
+import Nav from "../components/Nav";
+import styles from '../styles/Home.module.css'
+
+
 
 
 const CEBadge = {
@@ -488,82 +492,74 @@ function All(props) {
 
     return (
         <div>
-            <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                <Button variant="contained" color="primary" onClick={() => { window.location.assign('./new') }}>
-                    Add Volunteer
-                </Button>
-                {/* <Button variant="contained" color="primary" onClick={() => { window.location.assign('./new') }}>
-                    Edit Single Volunteer
-                </Button> */}
-                <Button variant="contained" color="primary" onClick={() => { window.location.assign('./all') }}>
-                    View All volunteers
-                </Button>
-            </div>
-            <div style={{ height: '95vh', width: '100vw' }}>
-                <div style={{ display: 'flex', height: '100%' }}>
+            <Nav />
+            <div className={styles.all} style={{ position: "fixed", top: 40, padding: "1rem", bottom: 10, backgroundColor: 'wheat' }}>
+                <div style={{ height: '89vh', width: '100vw', backgroundColor: 'white' }}>
+                    <div style={{ display: 'flex', height: '100%' }}>
 
-                    <div style={{ flexGrow: 1 }}>
-                        <DataGrid
-                            rows={rows}
-                            columns={columns}
-                            // checkboxSelection
-                            disableSelectionOnClick
-                            components={{ Toolbar: GridToolbar }}
-                            getRowHeight={() => 'auto'}
-                            experimentalFeatures={{ newEditingApi: true }}
-                            onCellEditStop={handleCellEditStop}
-                            // onSelectionModelChange={(ids) => {
-                            //     const selectedIDs = new Set(ids);
-                            //     const selectedRows = rows.filter((row) =>
-                            //         selectedIDs.has(row.id),
-                            //     );
+                        <div style={{ flexGrow: 1 }}>
+                            <DataGrid
+                                rows={rows}
+                                columns={columns}
+                                // checkboxSelection
+                                disableSelectionOnClick
+                                components={{ Toolbar: GridToolbar }}
+                                getRowHeight={() => 'auto'}
+                                experimentalFeatures={{ newEditingApi: true }}
+                                onCellEditStop={handleCellEditStop}
+                                // onSelectionModelChange={(ids) => {
+                                //     const selectedIDs = new Set(ids);
+                                //     const selectedRows = rows.filter((row) =>
+                                //         selectedIDs.has(row.id),
+                                //     );
 
-                            //     setSelectedRows(selectedRows);
-                            //     console.log(selectedRows)
-                            // }}
-                            componentsProps={{
-                                cell: {
-                                    onMouseEnter: handlePopoverOpen,
-                                    onClick: handlePopoverClose,
-                                    onMouseLeave: handlePopoverClose
-                                }
-                            }}
-                        />
-                        <Popover
-                            sx={{
-                                pointerEvents: 'none',
-                            }}
-                            open={open}
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            onClose={handlePopoverClose}
+                                //     setSelectedRows(selectedRows);
+                                //     console.log(selectedRows)
+                                // }}
+                                componentsProps={{
+                                    cell: {
+                                        onMouseEnter: handlePopoverOpen,
+                                        onClick: handlePopoverClose,
+                                        onMouseLeave: handlePopoverClose
+                                    }
+                                }}
+                            />
+                            <Popover
+                                sx={{
+                                    pointerEvents: 'none',
+                                }}
+                                open={open}
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                onClose={handlePopoverClose}
 
-                        >
-                            <Grid container spacing={3} sx={{ p: 3, minWidth: 400 }}>
-                                <Grid item>
-                                    <Typography>{`${rowHover.firstName + ' ' + rowHover.lastName}`}</Typography>
-                                    <Typography>{`${rowHover.email}`}</Typography>
-                                    <Typography>{`tel: ${rowHover.phoneNumber}`}</Typography>
-                                    <Box>{badgeRender({
-                                        label: 'CRM ID',
-                                        text: rowHover.CRM_ID,
-                                        color: 'violet'
-                                    })}</Box>
+                            >
+                                <Grid container spacing={3} sx={{ p: 3, minWidth: 400 }}>
+                                    <Grid item>
+                                        <Typography>{`${rowHover.firstName + ' ' + rowHover.lastName}`}</Typography>
+                                        <Typography>{`${rowHover.email}`}</Typography>
+                                        <Typography>{`tel: ${rowHover.phoneNumber}`}</Typography>
+                                        <Box>{badgeRender({
+                                            label: 'CRM ID',
+                                            text: rowHover.CRM_ID,
+                                            color: 'violet'
+                                        })}</Box>
+                                    </Grid>
+                                    <Grid item>{tooltipTypeParser(rowHover)}</Grid>
+
+                                    <Grid item>{Overdue(rowHover)}</Grid>
+
                                 </Grid>
-                                <Grid item>{tooltipTypeParser(rowHover)}</Grid>
 
-                                <Grid item>{Overdue(rowHover)}</Grid>
-
-                            </Grid>
-
-                        </Popover>
+                            </Popover>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -571,15 +567,6 @@ function All(props) {
 
     );
 }
-
-
-
-// export async function getServerSideProps() {
-//     await connection();
-
-//     const result = await Volunteer.find({})
-//     return { props: { result: JSON.stringify(result) } }
-// }
 
 export const getServerSideProps = withSessionSsr(
     async ({ req, res }) => {

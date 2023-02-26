@@ -8,10 +8,11 @@ import { Box, Button, Container } from '@mui/material'
 export default function Home() {
   return (
     <div className={styles.container}>
+
       <Head>
         <title>Volunteer Database</title>
         <meta name="description" content="Manage your volunteers!" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <main className={styles.main}>

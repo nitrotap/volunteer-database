@@ -2,6 +2,36 @@
   padding: 0 2rem;
 }
 
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  background-color: wheat;
+  width: 99vw;
+  top: 0;
+  left: 0;
+  position: fixed;
+
+}
+
+.nav a {
+  color: #0070f3;
+  text-decoration: none;
+  padding: 1rem;
+  
+}
+
+.nav a:hover,
+.nav a:focus,
+.nav a:active {
+  text-decoration: underline;
+  background-color: white;
+}
+
+
+
 .main {
   min-height: 100vh;
   padding: 4rem 0;
@@ -155,9 +185,40 @@
   font-size: 20pt;
   text-align: center;
 }
+
+.all {
+  position: "fixed";
+  top: 40;
+  padding: "1rem";
+  bottom: 10; 
+  background-color: 'wheat';
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
     flex-direction: column;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    background-color: wheat;
+    width: 99vw;
+    top: 0;
+    left: 0;
+    position: fixed;
+  }
+
+  .login {
+    margin-top: 40vh;
+  }
+}
+  
+
