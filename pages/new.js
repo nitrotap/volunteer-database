@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Container, Box, Typography, Card, CardContent, CardActions, TextField, Divider, Grid, Button, ToggleButtonGroup, ToggleButton, Checkbox, FormControl, FormControlLabel, FormLabel, FormGroup } from "@mui/material";
 import styles from '../styles/Home.module.css';
 import { withSessionSsr } from '../lib/config/withSession';
-import Nav from '../components/nav';
+import Nav from '../components/Nav';
 
 
 export default function NewVolunteer(props) {
